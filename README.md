@@ -33,4 +33,4 @@ A highly interactive and responsive wedding invitation website built with **Next
 ```
 
 ---
-Develope by Derry Andhika
+**Developed by [Derry Andhika](https://www.linkedin.com/in/lezut3r/)**
