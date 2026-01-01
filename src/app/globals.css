@@ -1,0 +1,122 @@
+/* Replace @import with @tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 2. Definisikan @layer base SEKALI aja */
+@layer base {
+  :root {
+    /* DEKLARASI WARNA */
+    --color-primary: #925b56;
+    --color-primary-dark: #3f251b; 
+    --color-secondary-light: #fef1ed;
+
+    /* DEKLARASI FONT DARI layout.tsx */
+    --font-sans: "Inter", sans-serif; /* Fallback */
+    --font-allura: "Allura", cursive;
+    --font-grand-cru: "Grand Cru", serif;
+  }
+  body {
+    @apply bg-[#f2d2be]; 
+  }
+}
+
+/* 3. Taruh @font-face di LUAR @layer */
+@font-face {
+  font-family: 'GrandCru';
+  src: url('/fonts/GrandCru-RegularS.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'GrandCru';
+  src: url('/fonts/GrandCru-BoldS.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* 4. Definisikan kelas custom di @layer components */
+@layer components {
+  /* Kelas font */
+  .font-allura {
+    font-family: var(--font-allura);
+  }
+  .font-allura-bold {
+    font-family: var(--font-allura);
+    font-weight: 700;
+    -webkit-text-stroke: 0.3px #00000050;
+    text-shadow: 0.4px 0.4px 0px rgba(0, 0, 0, 0.2);
+  }
+  .font-grandcru {
+    font-family: var(--font-grandcru);
+  }
+
+  /* Kelas lain */
+  .swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .animation-pause .animate-sway-1,
+  .animation-pause .animate-sway-2,
+  .animation-pause .animate-sway-3 {
+      animation-play-state: paused !important;
+  }
+  .anti-select-ios, .anti-select-ios * {
+      -webkit-user-select: none !important; 
+      -webkit-touch-callout: none !important;
+      user-select: none !important;
+      touch-action: manipulation;
+      cursor: pointer; 
+  }
+}
+
+
+/* 5. Gabung SEMUA @layer utilities jadi SATU */
+@layer utilities {
+  /* Scroll Down Animation */
+  .animate-scroll-down {
+    animation: scroll-down-indicator 2s ease-in-out infinite;
+  }
+  /* Sway Animations */
+  .animate-sway-1 {
+    animation: sway-1 13s ease-in-out infinite alternate;
+  }
+  .animate-sway-2 {
+    animation: sway-2 8s ease-in-out infinite alternate;
+  }
+  .animate-sway-3 {
+    animation: sway-3 2s ease-in-out infinite alternate;
+  }
+  /* Scrollbar Utility */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; 
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(146, 91, 86, 0.5); /* Warna scrollbar (#925b56 dengan opacity) */
+    border-radius: 20px;
+    border: 3px solid transparent; 
+  }
+}
+
+/* 6. Taruh @keyframes di LUAR @layer */
+@keyframes scroll-down-indicator {
+  0% { opacity: 0; transform: translateY(-40%); }
+  40%, 60% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(100%); }
+}
+@keyframes sway-1 {
+  from { transform: rotate(-2deg) translateX(-5px); }
+  to { transform: rotate(2deg) translateX(5px); }
+}
+@keyframes sway-2 {
+  from { transform: rotate(4deg) translateX(-8px) translateY(-3px); }
+  to { transform: rotate(-4deg) translateX(8px) translateY(3px); }
+}
+@keyframes sway-3 {
+  from { transform: rotate(-1deg) translateY(4px); }
+  to { transform: rotate(1deg) translateY(-4px); }
+}
